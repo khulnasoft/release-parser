@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: khulnasoft/release-parser
-          path: website
+          path: _data/releaselog/website
           submodules: false
           fetch-depth: 0 # fetch all history for all branches and tags, needed for next step
 
@@ -50,7 +50,7 @@ jobs:
       # This step must never fail because in most case the branch will not exist on the website repository.
       - name: Checkout the same branch on website
         run: |
-          cd website
+          cd _data/releaselog/website
           git checkout --progress --force -B ${{ github.ref_name }} refs/remotes/origin/${{ github.ref_name }} || true
 
       - name: Setup Python

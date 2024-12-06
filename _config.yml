@@ -2,7 +2,7 @@
 # Jekyll configuration - https://jekyllrb.com/docs/configuration/
 
 # Site settings
-url: https://release-parser
+url: https://releaselog.netlify.app
 title: release-parser
 
 
