@@ -1,0 +1,50 @@
+---
+# Netlify _redirects template. Documentation can be found on https://docs.netlify.com/routing/redirects/.
+#
+# The _redirects file is included in _config.yml/include key otherwise Jekyll doesn't copy it to
+# _site directory, where Netlify expects it.
+#
+# To create a new redirect, add an alternate_urls array in the page front-matter.
+
+# Setting a layout forces Jekyll to render this file
+layout: null
+---
+{%- for page in site.pages -%}
+# Redirects for {{page.path}}
+  {%- if page.alternate_urls %}
+    {%- for url in page.alternate_urls %}
+{{url}}       {{page.permalink}}
+    {%- endfor %}
+  {%- endif %}
+  {%- if page.layout == 'product'  %}
+{{page.permalink}}/_edit     https://github.com/khulnasoft/release-parser/edit/master/{{page.path}}
+/api{{page.permalink}}       /api{{page.permalink}}.json
+    {%- if page.alternate_urls  %}
+      {%- for url in page.alternate_urls %}
+/calendar{{url}}.ics       /calendar{{page.permalink}}.ics
+/api{{url}}.json       /api{{page.permalink}}.json
+/api{{url}}/*       /api{{page.permalink}}/:splat
+      {%- endfor %}
+    {%- endif %}
+  {%- endif %}
+
+{% endfor %}
+
+# Clients will try to access /favicon.ico, in some scenarios
+# we don't want the file in our codebase, because the theme
+# embeds it as a favicon, so instead set a redirect for
+# these clients to a PNG file instead.
+/favicon.ico /assets/favicon-32x32.png
+
+# Send API 404 responses in JSON
+/api/* /assets/404.json 404
+
+# A few permanent redirects for removed pages
+/tags/api-gateway                  /tags/web-server
+/tags/configuration-management     /
+/tags/db                           /tags/database
+/tags/library                      /tags/framework
+/tags/managed-mysql                /tags/database
+/tags/managed-postgresql           /tags/database
+/tags/package-manager              /tags/build-tool
+/tags/redhat                       /tags/red-hat

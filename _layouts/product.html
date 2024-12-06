@@ -1,0 +1,204 @@
+---
+layout: default
+---
+
+<div class="product-title">
+  <div class="d-flex flex-justify-between align-items-center">
+    <h1>{{ page.title }}</h1>
+    <span class="labels">
+      {%- for tag in page.tags %}
+        <a href="/tags/{{ tag }}"><span class="label">{{ tag }}</span></a>
+      {%- endfor %}
+    </span>
+  </div>
+
+  <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" class="fw-300">
+    📅 Last updated on {{ page.last_modified_at | date_to_long_string }}
+    {%- if page.auto and page.auto.methods %}
+    <span title="Latest releases on this page are automatically updated.">🤖</span>
+    {%- endif %}
+  </time>
+</div>
+
+<div class="product-description">
+  {% include product-icon.html product=page size=50 %}
+  {{content | extract_element:'blockquote' | first | extract_element:'p' }}
+</div>
+
+{% if page.releaseImage %}
+<img alt="Release Schedule Image Gantt Chart for {{page.title}}" src="{{page.releaseImage}}" />
+{% endif %}
+
+{%- capture now %}{{ "now" | date: "%s" | plus:0 }}{% endcapture %}
+{%- assign customColumnsAfterRelease = page.customColumns | where: 'position', 'after-release-column' %}
+{%- assign customColumnsBeforeLatest = page.customColumns | where: 'position', 'before-latest-column' %}
+{%- assign customColumnsAfterLatest = page.customColumns | where: 'position', 'after-latest-column' %}
+
+<table class="lifecycle">
+  <thead>
+    <tr>
+      <th>Release</th>{% assign colCount = 1 %}
+      {% for column in customColumnsAfterRelease %}{% include custom-column-th.html column=column %}{% assign colCount = colCount | plus:1 %}{% endfor %}
+      {% if page.releaseDateColumn %}<th>{{ page.releaseDateColumnLabel }}</th>{% assign colCount = colCount | plus:1 %}{% endif %}
+      {% if page.discontinuedColumn %}<th>{{ page.discontinuedColumnLabel }}</th>{% assign colCount = colCount | plus:1 %}{% endif %}
+      {% if page.eoasColumn %}<th>{{ page.eoasColumnLabel }}</th>{% assign colCount = colCount | plus:1 %}{% endif %}
+      {% if page.eolColumn %}<th>{{ page.eolColumnLabel }}</th>{% assign colCount = colCount | plus:1 %}{% endif %}
+      {% if page.eoesColumn %}<th>{{ page.eoesColumnLabel }}</th>{% assign colCount = colCount | plus:1 %}{% endif %}
+      {% for column in customColumnsBeforeLatest %}{% include custom-column-th.html column=column %}{% assign colCount = colCount | plus:1 %}{% endfor %}
+      {% if page.releaseColumn %}<th>{{ page.releaseColumnLabel }}</th>{% assign colCount = colCount | plus:1 %}{% endif %}
+      {% for column in customColumnsAfterLatest %}{% include custom-column-th.html column=column %}{% assign colCount = colCount | plus:1 %}{% endfor %}
+    </tr>
+  </thead>
+
+{% for r in page.releases %}
+{%- assign releaseClasses = 'release' %}
+{%- if r.can_be_hidden %}{% assign releaseClasses = 'release can-be-hidden' %}{% endif %}
+  <tr class="{{ releaseClasses }}">
+    {%- assign cycleColumnClass = '' %}
+    {%- if r.days_toward_eol < 0 %}{% assign cycleColumnClass = 'txt-linethrough' %}{% endif %}
+    <td class="{{ cycleColumnClass }}">
+      {% comment %}Only put a link in the version column if the release column is not shown{% endcomment %}
+      {% if page.releaseColumn == false and r.link  %}
+        <a href="{{ r.link }}" title="Release Notes / Changelog for {{ r.label | strip_html }}">{{ r.label }}</a>
+      {% else %}
+        {{ r.label }}
+      {% endif %}
+    </td>
+
+    {%- for column in customColumnsAfterRelease %}
+    {% include custom-column-td.html release=r column=column cssClasses=cycleColumnClass %}
+    {%- endfor %}
+
+    {% if page.releaseDateColumn %}
+    <td>{{ r.releaseDate | timeago }} <div>({{ r.releaseDate | date_to_string }})</div></td>
+    {% endif %}
+
+    {% if page.discontinuedColumn %}
+    {%- assign colorClass = 'bg-green-000' %}
+    {%- if r.days_toward_discontinued < page.discontinuedWarnThreshold %}{% assign colorClass = 'bg-yellow-200' %}{% endif %}
+    {%- if r.days_toward_discontinued < 0 %}{% assign colorClass = 'bg-red-000' %}{% endif %}
+    <td class="{{ colorClass }}">
+    {% if r.discontinued_from %}
+      {{ r.discontinued_from | timeago }} <div>({{ r.discontinued_from | date_to_string }})</div>
+    {% else %}
+      {% if r.is_discontinued %}Discontinued{% else %}In Production{% endif %}
+    {% endif %}
+    </td>
+    {% endif %}
+
+    {% if page.eoasColumn %}
+    {%- assign colorClass = 'bg-green-000' %}
+    {%- if r.days_toward_eoas < page.eoasWarnThreshold %}{% assign colorClass = 'bg-yellow-200' %}{% endif %}
+    {%- if r.days_toward_eoas < 0 %}{% assign colorClass = 'bg-red-000' %}{% endif %}
+    <td class="{{ colorClass }}">
+    {% if r.eoas_from %}
+      {% if r.is_eoas %}Ended{% else %}Ends{% endif %}
+      {{ r.eoas_from | timeago }} <div>({{ r.eoas_from | date_to_string }})</div>
+    {% else %}
+      {% if r.is_eoas %}No{% else %}Yes{% endif %}
+    {% endif %}
+    </td>
+    {% endif %}
+
+    {% if page.eolColumn != false %}
+    {%- assign colorClass = 'bg-green-000' %}
+    {%- if r.days_toward_eol < page.eolWarnThreshold %}{% assign colorClass = 'bg-yellow-200' %}{% endif %}
+    {%- if r.days_toward_eol < 0 %}{% assign colorClass = 'bg-red-000' %}{% endif %}
+    <td class="{{ colorClass }}">
+      {% if r.eol_from %}
+        {% if r.is_eol %}Ended{% else %}Ends{% endif %}
+        {{ r.eol_from | timeago }} <div>({{ r.eol_from | date_to_string }})</div>
+      {% else %}
+        {% if r.is_eol %}No{% else %}Yes{% endif %}
+      {% endif %}
+    </td>
+    {% endif %}
+
+    {% if page.eoesColumn %}
+    {%- assign colorClass = 'bg-green-000' %}
+    {%- if r.days_toward_eoes < page.eoesWarnThreshold %}{% assign colorClass = 'bg-yellow-200' %}{% endif %}
+    {%- if r.days_toward_eoes < 0 or r.eoes == true %}{% assign colorClass = 'bg-red-000' %}{% endif %}
+    {%- if r.eoes == null %}{% assign colorClass = 'bg-grey-lt-100' %}{% endif %}
+    <td class="{{ colorClass }}">
+      {% if r.eoes_from %}
+        {% if r.is_eoes %}Ended{% else %}Ends{% endif %}
+        {{ r.eoes_from | timeago }} <div>({{ r.eoes_from | date_to_string }})</div>
+      {% else %}
+        {% if r.is_eoes == null %}Unavailable{% else %}{% if r.is_eoes %}No{% else %}Yes{% endif %}{% endif %}
+      {% endif %}
+    </td>
+    {% endif %}
+
+    {%- for column in customColumnsBeforeLatest %}
+    {% include custom-column-td.html release=r column=column %}
+    {%- endfor %}
+
+    {% if page.releaseColumn != false %}
+    {%- assign releaseColumnClass = '' %}
+    {%- if r.days_toward_eol < 0 %}{% assign releaseColumnClass = 'txt-linethrough' %}{% endif %}
+    <td class="{{ releaseColumnClass }}">
+      {% if r.link %}
+        <a href="{{ r.link }}" title="Release Notes / Changelog">{{ r.latest }}</a>
+      {% else %}
+        {{ r.latest }}
+      {% endif %}
+      {% if r.latestReleaseDate %}<div>({{ r.latestReleaseDate | date_to_string }})</div>{% endif %}
+    </td>
+    {% endif %}
+
+    {%- for column in customColumnsAfterLatest %}
+    {% include custom-column-td.html release=r column=column cssClasses=releaseColumnClass %}
+    {%- endfor %}
+  </tr>
+{% endfor %}
+{% assign can_be_hidden_releases_count = page.releases | where: 'can_be_hidden', true | size %}
+{% if can_be_hidden_releases_count > 0 %}
+  <tr id="show-more-row" class="d-none">
+    <td colspan="{{ colCount }}" class="text-center">
+      <button id="show-hidden-releases-button" class="btn">
+        Show more unmaintained releases
+      </button>
+    </td>
+  </tr>
+  <script type="text/javascript" src="assets/register-show-hidden-releases-handler.js" defer></script>
+{% endif %}
+</table>
+
+<div class="policytext">
+  {{ content | remove_first_element:'blockquote' }}
+</div>
+
+{% if page.releasePolicyLink %}
+<p>More information is available on the <a href="{{page.releasePolicyLink}}">{{page.title}} website</a>.</p>
+{% endif %}
+
+{% if page.releaseColumn %}
+{% unless page.tags contains "discontinued" %}
+<p>You should be running one of the supported release numbers listed above in the rightmost column.</p>
+{% endunless %}
+{% endif %}
+
+{% if page.versionCommand %}
+<div id="version-command" class="card card-body bg-light">
+  You can check the version that you are currently using by running: <pre>{{page.versionCommand}}</pre>
+</div>
+{% endif %}
+
+{% include identifiers.html %}
+
+<hr>
+
+<p>
+  You can submit an improvement to this page
+  <a href="{{page.permalink}}/_edit" title="Click the Pencil, the link takes you directly to the correct page">
+    on GitHub
+    <img class="emoji" title=":octocat:" alt=":octocat:" src="https://github.githubassets.com/images/icons/emoji/octocat.png" width="20" height="20">
+  </a>.
+  This page has a corresponding <a title="Talk Page for {{page.title}}" href="https://github.com/khulnasoft/talk/wiki{{page.permalink}}">Talk Page</a>.
+</p>
+
+<p>
+  A JSON version of this page is available at <a href="/api{{page.permalink}}.json">/api{{page.permalink}}.json</a>.
+  See the <a href="/docs/api/">API Documentation</a> for more information.
+  You can subscribe to the iCalendar feed at <a href="webcal://{{site.url | split: '://' | last}}/calendar{{page.permalink}}.ics">/calendar{{page.permalink}}.ics</a>.
+</p>

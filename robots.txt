@@ -1,0 +1,3 @@
+User-Agent: *
+Allow: /
+Sitemap: https://releaselog.netlify.app/sitemap.xml

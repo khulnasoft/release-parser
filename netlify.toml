@@ -1,0 +1,13 @@
+[build]
+  command = """
+  ./_auto/deploy.sh
+  """
+  publish = "_site/"
+
+[context.deploy-preview]
+  command = """
+  ./_auto/deploy.sh $DEPLOY_PRIME_URL
+  """
+
+[[plugins]]
+package = "netlify-plugin-submit-sitemap"

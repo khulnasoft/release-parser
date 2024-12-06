@@ -1,0 +1,126 @@
+---
+# Jekyll configuration - https://jekyllrb.com/docs/configuration/
+
+# Site settings
+url: https://release-parser
+title: release-parser
+
+
+# Build settings
+encoding: utf-8
+markdown: kramdown
+strict_front_matter: true # Cause a build to fail if there is a YAML syntax error (#40).
+plugins:
+  - jekyll-feed
+  - jekyll-timeago
+  - jekyll-seo-tag
+  - jekyll-last-modified-at
+  - jemoji
+
+
+# just-the-docs settings, see https://just-the-docs.com/
+theme: just-the-docs
+nav_sort: case_insensitive
+
+# https://just-the-docs.com/docs/configuration/#search
+search_enabled: true
+search:
+  button: true
+  focus_shortcut_key: 'k'
+  placeholder_text: "Search for a product"
+
+# https://just-the-docs.com/docs/configuration/#aux-links
+aux_links:
+  Tags:
+    - /tags/
+  Recommendations:
+    - /recommendations
+  Contribute:
+    - /contribute
+  Source:
+    - https://github.com/khulnasoft/release-parser
+  API:
+    - /docs/api
+  "Release Data":
+    - /_data/releaselog/
+
+# https://just-the-docs.com/docs/configuration/#callouts
+callouts:
+  warning:
+    title: Warning
+    color: yellow
+  note:
+    title: Note
+    color: blue
+
+
+# jekyll-timeago plugin configuration, see https://github.com/markets/jekyll-timeago
+jekyll_timeago:
+  # Use 2 terms in relative timestamps:
+  # [YES] x years, y months
+  # [YES] x months, z weeks
+  # [NO] x years, y months, z days
+  depth: 2
+  # Give approx times in relative time
+  # within a 10% error margin
+  # See https://github.com/markets/jekyll-timeago/pull/24
+  # for what this does
+  threshold: 0.1
+
+
+# Default pages / products values
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/logo-512x512.png
+  - scope:
+      path: "products"
+    values:
+      layout: product
+      alternate_urls: []
+      identifiers: []
+      auto: []
+      releaseColumn: true
+      releaseColumnLabel: 'Latest'
+      releaseDateColumn: false
+      releaseDateColumnLabel: 'Released'
+      discontinuedColumn: false
+      discontinuedColumnLabel: 'Discontinued'
+      discontinuedWarnThreshold: 121
+      eoasColumn: false
+      eoasColumnLabel: 'Active Support'
+      eoasWarnThreshold: 121
+      eolColumn: true
+      eolColumnLabel: 'Security Support'
+      eolWarnThreshold: 121
+      eoesColumn: false
+      eoesColumnLabel: 'Extended Support'
+      eoesWarnThreshold: 121
+      customColumns: []
+      LTSLabel: '<abbr title="Long Term Support">LTS</abbr>'
+
+
+# Include & excludes
+include:
+  - _redirects
+  - _headers
+
+exclude:
+  - .idea
+  - _auto
+  - CODE-OF-CONDUCT.md
+  - Gemfile
+  - Gemfile.lock
+  - HACKING.md
+  - LICENSE
+  - netlify.toml
+  - node_modules
+  - package.json
+  - package-lock.json
+  - vendor/
+  - Rakefile
+  - README.md
+  - requirements.txt
+  - runtime.txt
+  - product-schema.json

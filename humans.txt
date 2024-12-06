@@ -1,0 +1,9 @@
+/* TEAM */
+
+Team: https://github.com/orgs/khulnasoft/people
+Contributors: https://github.com/khulnasoft/release-parser/graphs/contributors
+
+/* SITE */
+Software: Jekyll, Netlify, GitHub, Ruby, GitHub Actions
+Components: Just the Docs Jekyll Theme, Stoplight Elements, Simple Icons
+Logo: adaptation of "An hourglass in a round icon" by David Abián and Serhio Magpie (https://commons.wikimedia.org/wiki/File:Hourglass_icon_%28orange%29.svg)
