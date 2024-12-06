@@ -11,7 +11,7 @@ info:
     url: 'https://github.com/khulnasoft/release-parser/issues/new/choose'
     name: Team release-parser
 servers:
-  - url: 'https://release-parser'
+  - url: 'https://releaselog.netlify.app'
     description: Production API
 paths:
   '/api/{product}.json':

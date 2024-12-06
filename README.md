@@ -10,7 +10,7 @@
 [![Twitter Follow Badge](https://img.shields.io/twitter/url.svg?label=@khulnasoft&style=social&url=https%3A%2F%2Ftwitter.com%2Fkhulnasoft)](https://twitter.com/khulnasoft)
 
 Keep track of various End of Life dates and support lifecycles for various products.
-Visit <https://release-parser> for a list of supported products.
+Visit <https://releaselog.netlify.app> for a list of supported products.
 This information is very often [hard to track or badly presented](https://twitter.com/captn3m0/status/1110504412064239617).
 This project collates this data and presents it in an easily accessible format, with URLs that are
 easy to guess and remember.
