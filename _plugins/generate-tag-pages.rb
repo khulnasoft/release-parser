@@ -2,7 +2,7 @@
 
 require 'jekyll'
 
-module ReleaseParser
+module ReleaseLog
 
   class ProductPagesGenerator < Jekyll::Generator
     safe true

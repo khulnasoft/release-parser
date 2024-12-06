@@ -42,7 +42,7 @@ aux_links:
   API:
     - /docs/api
   "Release Data":
-    - /_data/releaselog/
+    - https://github.com/khulnasoft/release-data/
 
 # https://just-the-docs.com/docs/configuration/#callouts
 callouts:

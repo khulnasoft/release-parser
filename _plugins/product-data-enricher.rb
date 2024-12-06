@@ -3,7 +3,7 @@
 #
 # Naming conventions:
 # - Raw fields, declared in product's markdown front matter or derived from a template (such as the
-#   changelogTemplate), use the camel case notation (example: releaseParser).
+#   changelogTemplate), use the camel case notation (example: releaseLog).
 # - Computed fields, injected by ProductDataEnricher, use the snake case notation (example: end_of_life).
 #
 # Here is a list of computed fields :
@@ -27,7 +27,7 @@ module Jekyll
   class ProductDataEnricher
     class << self
 
-      TOPIC = "ReleaseParser Product Data Enricher:"
+      TOPIC = "ReleaseLog Product Data Enricher:"
 
       def enrich(page)
         Jekyll.logger.debug TOPIC, "Enriching #{page.name}"

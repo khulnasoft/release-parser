@@ -6,7 +6,7 @@ layout: null
 ---
 {
     "name": "release-parser",
-    "short_name": "khulnasoft",
+    "short_name": "releaselog",
     "icons": [
         {
             "src": "{{ '/assets/logo-192x192.png' | absolute_url }}",

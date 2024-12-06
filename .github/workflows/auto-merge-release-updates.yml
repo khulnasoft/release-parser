@@ -29,11 +29,11 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python Dependencies
-        run: pip install -r '_data/releaselog/requirements.txt'
+        run: pip install -r '_data/release-data/requirements.txt'
 
       - id: latest
         name: Auto-update products
-        run: python '_data/releaselog/latest.py' -p 'products/' -d '_data/releaselog/releases'
+        run: python '_data/release-data/latest.py' -p 'products/' -d '_data/release-data/releases'
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842 # v5
@@ -44,7 +44,7 @@ jobs:
           commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
 
       - name: Create PR
-        if: ${{ contains(steps.metadata.outputs.dependency-names, '_data/releaselog') }}
+        if: ${{ contains(steps.metadata.outputs.dependency-names, '_data/release-data') }}
         run: gh pr merge --auto --rebase "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}

@@ -8,10 +8,11 @@ echo "Python version: $(python --version)"
 echo "Jekyll version: $(bundle exec jekyll --version)"
 echo "Deploy URL: $1"
 
+# See https://github.com/khulnasoft/release-parser/pull/2081
 echo "Updating latest product information..."
-pip install -r '_data/releaselog/requirements.txt'
+pip install -r '_data/release-data/requirements.txt'
 git submodule update --remote
-if ! python3 '_data/releaselog/latest.py' -p 'products/' -d '_data/releaselog/releases'; then # if the latest.py script fails...
+if ! python3 '_data/release-data/latest.py' -p 'products/' -d '_data/release-data/releases'; then # if the latest.py script fails...
   git checkout -- products/ # ...just undo the changes, and carry on
 fi
 

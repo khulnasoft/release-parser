@@ -7,7 +7,7 @@
 [![made-with-Markdown](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)](https://commonmark.org/)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE-OF-CONDUCT.md)
 [![Gitter](https://badges.gitter.im/khulnasoft/community.svg)](https://gitter.im/khulnasoft/community)
-[![Twitter Follow Badge](https://img.shields.io/twitter/url.svg?label=@khulnasoft&style=social&url=https%3A%2F%2Ftwitter.com%2Fkhulnasoft)](https://twitter.com/khulnasoft)
+[![Twitter Follow Badge](https://img.shields.io/twitter/url.svg?label=@releaselog_date&style=social&url=https%3A%2F%2Ftwitter.com%2Freleaselog_date)](https://twitter.com/releaselog_date)
 
 Keep track of various End of Life dates and support lifecycles for various products.
 Visit <https://releaselog.netlify.app> for a list of supported products.

@@ -5,7 +5,7 @@ require_relative 'identifier-to-url'
 #
 # All the filters has been gathered in the same module to avoid module name clashing
 # (see https://github.com/khulnasoft/release-parser/issues/2074).
-module ReleaseParserFilter
+module ReleaseLogFilter
 
   # Enables Liquid templating in front-matter.
   # See https://fettblog.eu/snippets/jekyll/liquid-in-frontmatter/.
@@ -134,4 +134,4 @@ module ReleaseParserFilter
   end
 end
 
-Liquid::Template.register_filter(ReleaseParserFilter)
+Liquid::Template.register_filter(ReleaseLogFilter)

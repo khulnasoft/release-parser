@@ -379,4 +379,4 @@ criteria](https://docs.gitlab.com/ee/policy/maintenance.html#backporting-to-olde
 | Minor        | For when new backward-compatible functionality is introduced to the public API, a minor feature is introduced, or when a set of smaller features is rolled out. | Monthly on [third Thursday][release-day]. Upcoming release dates can be seen [on this page](https://about.gitlab.com/releases/)).                                                                           |
 | Patch        | For backward-compatible bug fixes that fix incorrect behavior.                                                                                                  | As needed.                                                                                                          |
 
-[release-day]: https://about.gitlab.com/blog/2023/09/18/gitlab-releaselog-change/ "Release Date Change"
+[release-day]: https://about.gitlab.com/blog/2023/09/18/gitlab-release-date-change/ "Release Date Change"

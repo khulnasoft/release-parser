@@ -13,7 +13,7 @@ eolColumn: End-of-life Date
 
 auto:
   methods:
-  # https://github.com/khulnasoft/release-parser/blob/master/_data/releaselog/src/pan-os.py works great, but the latest.py script does not
+  # https://github.com/khulnasoft/release-data/blob/main/src/pan-os.py works great, but the latest.py script does not
   # compute the latest version accurately, and the link is not updated too. So we better disable this for now. 
   # See https://github.com/khulnasoft/release-parser/issues/5775.
   #-   custom: pan-os

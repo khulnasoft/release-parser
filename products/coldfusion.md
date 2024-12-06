@@ -17,7 +17,7 @@ eoesColumn: true
 #  -   custom: coldfusion
 
 # When adding a cycle, don't forget to add its release note URL in
-# https://github.com/khulnasoft/release-parser/blob/master/_data/releaselog/src/coldfusion.py
+# https://github.com/khulnasoft/release-data/blob/main/src/coldfusion.py
 # to benefit from auto-updates.
 releases:
 -   releaseCycle: "2023"

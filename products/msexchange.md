@@ -101,7 +101,7 @@ releases:
 > [Microsoft Exchange Server](https://en.wikipedia.org/wiki/Microsoft_Exchange_Server) is a mail
 > server and calendaring server developed by Microsoft.
 
-[Exchange Server build numbers and release dates](https://learn.microsoft.com/exchange/new-features/build-numbers-and-releaselogs)
+[Exchange Server build numbers and release dates](https://learn.microsoft.com/exchange/new-features/build-numbers-and-release-dates)
 
 CU: Cumulative Update
 SU: Security Update

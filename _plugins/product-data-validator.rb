@@ -12,7 +12,7 @@ require 'jekyll'
 require 'open-uri'
 require_relative 'identifier-to-url'
 
-module ReleaseParserHooks
+module ReleaseLogHooks
   VERSION = '1.0.0'
   TOPIC = 'Product Validator:'
   VALID_CATEGORIES = %w[app database device framework lang library os server-app service standard]
@@ -122,7 +122,7 @@ module ReleaseParserHooks
 
     error_if = Validator.new('product', product, product.data)
     error_if.is_not_a_string('title')
-    error_if.is_not_in('category', ReleaseParserHooks::VALID_CATEGORIES)
+    error_if.is_not_in('category', ReleaseLogHooks::VALID_CATEGORIES)
     error_if.does_not_match('tags', /^[a-z0-9\-]+( [a-z0-9\-]+)*$/) if product.data.has_key?('tags')
     error_if.does_not_match('permalink', /^\/[a-z0-9-]+$/)
     error_if.does_not_match('alternate_urls', /^\/[a-z0-9\-_]+$/)
@@ -158,7 +158,7 @@ module ReleaseParserHooks
     product.data['customColumns'].each { |column|
       error_if = Validator.new('customColumns', product, column)
       error_if.is_not_a_string('property')
-      error_if.is_not_in('position', ReleaseParserHooks::VALID_CUSTOM_COLUMN_POSITIONS)
+      error_if.is_not_in('position', ReleaseLogHooks::VALID_CUSTOM_COLUMN_POSITIONS)
       error_if.is_not_a_string('label')
       error_if.is_not_a_string('description') if column.has_key?('description')
       error_if.is_not_an_url('link') if column.has_key?('link')
@@ -377,7 +377,7 @@ module ReleaseParserHooks
     end
 
     def is_ignored(url)
-      ReleaseParserHooks::IGNORED_URL_PREFIXES.each do |ignored_url, reason|
+      ReleaseLogHooks::IGNORED_URL_PREFIXES.each do |ignored_url, reason|
         return reason if url.start_with?(ignored_url.to_s)
       end
 
@@ -385,7 +385,7 @@ module ReleaseParserHooks
     end
 
     def is_suppressed(url)
-      ReleaseParserHooks::SUPPRESSED_URL_PREFIXES.each do |ignored_url, reason|
+      ReleaseLogHooks::SUPPRESSED_URL_PREFIXES.each do |ignored_url, reason|
         return reason if url.start_with?(ignored_url.to_s)
       end
 
@@ -404,7 +404,7 @@ module ReleaseParserHooks
 
     def declare_error(property, value, details)
       Jekyll.logger.error TOPIC, "Invalid #{property} '#{value}' for #{location}, #{details}."
-      ReleaseParserHooks::increase_error_count()
+      ReleaseLogHooks::increase_error_count()
     end
 
     def location
@@ -422,20 +422,20 @@ end
 # Must be run before enrichment, hence the high priority.
 Jekyll::Hooks.register :pages, :post_init, priority: Jekyll::Hooks::PRIORITY_MAP[:high] do |page, payload|
   if page.data['layout'] == 'product'
-    ReleaseParserHooks::validate(page)
+    ReleaseLogHooks::validate(page)
   end
 end
 
 # Must be run after enrichment, hence the low priority.
 Jekyll::Hooks.register :pages, :post_init, priority: Jekyll::Hooks::PRIORITY_MAP[:low] do |page, payload|
   if page.data['layout'] == 'product'
-    ReleaseParserHooks::validate_urls(page)
+    ReleaseLogHooks::validate_urls(page)
   end
 end
 
 # Must be run at the end of all validation
 Jekyll::Hooks.register :site, :post_render, priority: Jekyll::Hooks::PRIORITY_MAP[:low] do |site, payload|
-  if ReleaseParserHooks::error_count > 0
-    raise "Site build canceled : #{ReleaseParserHooks::error_count} errors detected"
+  if ReleaseLogHooks::error_count > 0
+    raise "Site build canceled : #{ReleaseLogHooks::error_count} errors detected"
   end
 end

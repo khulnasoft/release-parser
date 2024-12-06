@@ -17,7 +17,7 @@ identifiers:
 
 auto:
   # It takes too much time to fetch all versions.
-  # See https://github.com/khulnasoft/release-parser/blob/master/_data/releaselog/src/firefox.py for details
+  # See https://github.com/khulnasoft/release-data/blob/main/src/firefox.py for details
   cumulative: true
   methods:
   -   custom: firefox
