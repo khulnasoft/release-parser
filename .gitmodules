@@ -1,0 +1,4 @@
+[submodule "_data/releaselog"]
+	path = _data/releaselog
+	url = https://github.com/khulnasoft/release-parser.git
+	branch = main
