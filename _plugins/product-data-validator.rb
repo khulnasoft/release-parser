@@ -369,7 +369,7 @@ module ReleaseLogHooks
       end
 
       Jekyll.logger.debug TOPIC, "Checking URL #{url}."
-      URI.open(url, 'User-Agent' => USER_AGENT, :open_timeout => URL_CHECK_OPEN_TIMEOUT, :read_timeout => URL_CHECK_TIMEOUT) do |response|
+      URI.parse(url).open('User-Agent' => USER_AGENT, :open_timeout => URL_CHECK_OPEN_TIMEOUT, :read_timeout => URL_CHECK_TIMEOUT) do |response|
         if response.status[0].to_i >= 400
           raise "response code is #{response.status}"
         end
