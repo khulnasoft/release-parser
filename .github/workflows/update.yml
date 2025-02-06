@@ -3,6 +3,8 @@ name: Update Data
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
   schedule:
     # See https://crontab.guru/#17_6,18_*_*_*
     - cron: '17 0,6,12,18 * * *'
