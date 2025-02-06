@@ -28,10 +28,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache
-          # The cache is reset on the first build of every week this way. If you wish to reset the cache manually,
-          # you can do it on https://github.com/khulnasoft/release-data/actions/caches or by updating
-          # the last part of the key below.
-          key: "${{ steps.current-time.outputs.formattedTime }}-2"
+          key: "${{ steps.current-time.outputs.formattedTime }}-3" # Update the last part to invalidate the cache
 
       - name: Clone self repository
         uses: actions/checkout@v4
